@@ -70,13 +70,17 @@
                                 }
                             }
                         }
-                                         
-                            htmlTxt += '<h5>Order #' + (1) + '</h5>';
+                        // =====================================
+                        // Added Code
+                        // =====================================
+                        for (k = 0; k < size; k++)
+                        {
+                            htmlTxt += '<h5>Order #' + (k+1) + '</h5>';
                             var counter = 0;
                             //get bought items by order ID
                             for (j = 0; j < boughtItem.length; j++) {
                             
-                                if(boughtItem[j].id == orderIdList[0]) {
+                                if(boughtItem[j].id == orderIdList[k]) {
                                     var item = boughtItem[j];
                                     //display top level info
                                     if(counter == 0) {
@@ -118,8 +122,12 @@
                                                             </thead>\
                                                             <tbody>';
                             for (y = 0; y < boughtItem.length; y++) {
-                            
-                                if (boughtItem[y].id == orderIdList[0]) {
+                                // Loop Check
+                                // console.log(orderIdList[k])
+                                // console.log(orderIdList)
+                                // console.log(boughtItem[y].id)
+                                // console.log(boughtItem[y])
+                                if (boughtItem[y].id == orderIdList[k]) {
                                     var product = boughtItem[y];
                                     htmlTxt += '\
                                         <tr class="cart_table_item">\
@@ -144,25 +152,27 @@
                                 }
                             }
                             htmlTxt += '\
-                                                                <tr>\
-                                                                    <td></td>\
-                                                                    <td></td>\
-                                                                    <td></td>\
-                                                                    <td class="product-subtotal" style="font-weight: bold; color: #cc3b33">Total:</td>\
-                                                                    <td class="product-subtotal" style="font-weight: bold">\
-                                                                        $<span class="amount" id="finalPrice" name="finalPrice">' + finalPrice + '</span>\
-                                                                    </td>\
-                                                                </tr>\
-                                                            </tbody>\
-                                                        </table>\
+                                                                        <tr>\
+                                                                            <td></td>\
+                                                                            <td></td>\
+                                                                            <td></td>\
+                                                                            <td class="product-subtotal" style="font-weight: bold; color: #cc3b33">Total:</td>\
+                                                                            <td class="product-subtotal" style="font-weight: bold">\
+                                                                                $<span class="amount" id="finalPrice" name="finalPrice">' + finalPrice + '</span>\
+                                                                            </td>\
+                                                                        </tr>\
+                                                                    </tbody>\
+                                                                </table>\
+                                                            </div>\
+                                                        </div>\
                                                     </div>\
                                                 </div>\
                                             </div>\
-                                        </div>\
-                                    </div>\
-                                </div>';
+                                        </div>';
                             finalPrice = 0;
-
+                        }
+                       
+                        // =====================================
                         htmlTxt += '<h4 style="font-weight: bold; padding-left: 20px">Total Amount Spent: $'+ overallPrice + '</h4>';
                         document.getElementById("salesHistoryTab").innerHTML = htmlTxt;
                     }
