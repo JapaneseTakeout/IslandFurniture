@@ -1,11 +1,11 @@
-var db = require('./databaseConfig.js');
-var Member = require('./member.js');
-var ShoppingCartLineItem = require('./shoppingCartLineItem.js');
-var crypto = require('crypto');
-var bcrypt = require('bcrypt');
-var nodemailer = require('nodemailer');
-let jwt = require('jsonwebtoken');
-let config = require('./config');
+var db = require("./databaseConfig.js");
+var Member = require("./member.js");
+var ShoppingCartLineItem = require("./shoppingCartLineItem.js");
+var crypto = require("crypto");
+var bcrypt = require("bcrypt");
+var nodemailer = require("nodemailer");
+let jwt = require("jsonwebtoken");
+let config = require("./config");
 var memberDB = {
   checkMemberLogin: function (email, password) {
     return new Promise((resolve, reject) => {
@@ -16,13 +16,13 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = 'SELECT * FROM memberentity m WHERE m.EMAIL=?';
+          var sql = "SELECT * FROM memberentity m WHERE m.EMAIL=?";
           conn.query(sql, [email], (err, result) => {
             if (err) {
               conn.end();
               return reject(err);
             } else {
-              if (result == null || result == undefined || result == '') {
+              if (result == null || result == undefined || result == "") {
                 conn.end();
                 return resolve({ success: false });
               }
@@ -39,7 +39,7 @@ var memberDB = {
                       { username: member.email },
                       config.secret,
                       {
-                        expiresIn: '12h',
+                        expiresIn: "12h",
                       }
                     );
                     conn.end();
@@ -69,7 +69,7 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = 'SELECT * FROM memberentity m WHERE m.EMAIL=?';
+          var sql = "SELECT * FROM memberentity m WHERE m.EMAIL=?";
           conn.query(sql, [email], function (err, result) {
             if (err) {
               conn.end();
@@ -96,7 +96,7 @@ var memberDB = {
           return reject(err);
         } else {
           var sql =
-            'SELECT m.*, c.NAME as COUNTRY_NAME FROM `islandfurniture-it07`.memberentity m left join `islandfurniture-it07`.countryentity c ON c.ID = m.COUNTRY_ID where m.EMAIL=?';
+            "SELECT m.*, c.NAME as COUNTRY_NAME FROM `islandfurniture-it07`.memberentity m left join `islandfurniture-it07`.countryentity c ON c.ID = m.COUNTRY_ID where m.EMAIL=?";
           conn.query(sql, [email], function (err, result) {
             if (err) {
               conn.end();
@@ -153,12 +153,12 @@ var memberDB = {
         } else {
           var sql =
             "SELECT i.SKU,i.NAME as 'ITEM_NAME',ic.RETAILPRICE,li.QUANTITY,sr.CREATEDDATE,f.IMAGEURL,sr.ID," +
-            ' d.NAME, d.DELIVERY_ADDRESS, d.POSTAL_CODE, d.CONTACT' +
-            ' FROM itementity i,item_countryentity ic,lineitementity li,salesrecordentity sr,' +
-            ' salesrecordentity_lineitementity sl,furnitureentity f, deliverydetailsentity d' +
-            ' WHERE sr.MEMBER_ID=? AND d.SALERECORD_ID = sr.id AND i.ID=ic.ITEM_ID AND' +
-            ' ic.COUNTRY_ID=25 AND li.ITEM_ID=i.ID AND sr.ID=sl.SalesRecordEntity_ID AND' +
-            ' li.ID=sl.itemsPurchased_ID AND f.ID=i.ID';
+            " d.NAME, d.DELIVERY_ADDRESS, d.POSTAL_CODE, d.CONTACT" +
+            " FROM itementity i,item_countryentity ic,lineitementity li,salesrecordentity sr," +
+            " salesrecordentity_lineitementity sl,furnitureentity f, deliverydetailsentity d" +
+            " WHERE sr.MEMBER_ID=? AND d.SALERECORD_ID = sr.id AND i.ID=ic.ITEM_ID AND" +
+            " ic.COUNTRY_ID=25 AND li.ITEM_ID=i.ID AND sr.ID=sl.SalesRecordEntity_ID AND" +
+            " li.ID=sl.itemsPurchased_ID AND f.ID=i.ID";
           conn.query(sql, [id], function (err, result) {
             if (err) {
               conn.end();
@@ -197,7 +197,7 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = 'SELECT * FROM memberentity m WHERE m.EMAIL=?';
+          var sql = "SELECT * FROM memberentity m WHERE m.EMAIL=?";
           conn.query(sql, [email], function (err, result) {
             if (err) {
               conn.end();
@@ -236,8 +236,8 @@ var memberDB = {
               passwordReset,
             ];
             var sql =
-              'INSERT INTO memberentity(ACTIVATIONCODE,EMAIL,JOINDATE,PASSWORDHASH,PASSWORDRESET,LOYALTYTIER_ID)' +
-              'values(?,?,?,?,?,15)';
+              "INSERT INTO memberentity(ACTIVATIONCODE,EMAIL,JOINDATE,PASSWORDHASH,PASSWORDRESET,LOYALTYTIER_ID)" +
+              "values(?,?,?,?,?,15)";
             conn.query(sql, sqlArgs, function (err, result) {
               if (err) {
                 conn.end();
@@ -245,17 +245,17 @@ var memberDB = {
               } else {
                 if (result.affectedRows > 0) {
                   var mailOptions = {
-                    from: 'islandfurnituresep@gmail.com',
+                    from: "islandfurnituresep@gmail.com",
                     to: email,
-                    subject: 'Island Furniture Member Account Activation',
+                    subject: "Island Furniture Member Account Activation",
                     text:
-                      'Greetings from Island Furniture... \n\n' +
-                      'Click on the link below to activate your Island Furniture account: \n\n' +
-                      'http://' +
+                      "Greetings from Island Furniture... \n\n" +
+                      "Click on the link below to activate your Island Furniture account: \n\n" +
+                      "http://" +
                       hostName +
-                      '/activateMemberAccount.html?email=' +
+                      "/activateMemberAccount.html?email=" +
                       email +
-                      '&activateCode=' +
+                      "&activateCode=" +
                       activationCode,
                   };
                   emailer.sendMail(mailOptions, function (error, info) {
@@ -282,7 +282,7 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = 'SELECT * FROM memberentity m WHERE m.EMAIL=?';
+          var sql = "SELECT * FROM memberentity m WHERE m.EMAIL=?";
           conn.query(sql, [email], function (err, result) {
             if (err) {
               conn.end();
@@ -308,7 +308,7 @@ var memberDB = {
           return reject(err);
         } else {
           sql =
-            'UPDATE memberentity SET ACCOUNTACTIVATIONSTATUS=1 WHERE EMAIL=?';
+            "UPDATE memberentity SET ACCOUNTACTIVATIONSTATUS=1 WHERE EMAIL=?";
           conn.query(sql, [email], function (err, result) {
             if (err) {
               conn.end();
@@ -344,10 +344,10 @@ var memberDB = {
           var income = details.income;
           var sla = details.sla;
           var password = details.password;
-          if (password == null || password == '') {
+          if (password == null || password == "") {
             var sql =
-              'UPDATE memberentity SET NAME=?, PHONE=?, CITY=?, ADDRESS=?, SECURITYQUESTION=?,' +
-              'SECURITYANSWER=?, AGE=?, INCOME=?, SERVICELEVELAGREEMENT=? WHERE EMAIL=?';
+              "UPDATE memberentity SET NAME=?, PHONE=?, CITY=?, ADDRESS=?, SECURITYQUESTION=?," +
+              "SECURITYANSWER=?, AGE=?, INCOME=?, SERVICELEVELAGREEMENT=? WHERE EMAIL=?";
             var sqlArgs = [
               name,
               phone,
@@ -374,8 +374,8 @@ var memberDB = {
           } else {
             bcrypt.hash(password, 5, function (err, hash) {
               var sql =
-                'UPDATE memberentity SET NAME=?, PHONE=?, CITY=?, ADDRESS=?, SECURITYQUESTION=?,' +
-                'SECURITYANSWER=?, AGE=?, INCOME=?, SERVICELEVELAGREEMENT=?, PASSWORDHASH=? WHERE EMAIL=?';
+                "UPDATE memberentity SET NAME=?, PHONE=?, CITY=?, ADDRESS=?, SECURITYQUESTION=?," +
+                "SECURITYANSWER=?, AGE=?, INCOME=?, SERVICELEVELAGREEMENT=?, PASSWORDHASH=? WHERE EMAIL=?";
               var sqlArgs = [
                 name,
                 phone,
@@ -415,7 +415,7 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = 'SELECT * FROM memberentity m WHERE m.EMAIL=?';
+          var sql = "SELECT * FROM memberentity m WHERE m.EMAIL=?";
           conn.query(sql, [email], function (err, result) {
             if (err) {
               conn.end();
@@ -423,18 +423,18 @@ var memberDB = {
             } else {
               var member = JSON.parse(JSON.stringify(result[0]));
               var mailOptions = {
-                from: 'islandfurnituresep@gmail.com',
+                from: "islandfurnituresep@gmail.com",
                 to: email,
-                subject: 'Island Furniture Member Password Reset',
+                subject: "Island Furniture Member Password Reset",
                 text:
-                  'Greetings from Island Furniture... \n\n' +
-                  'Here is your activation code to be keyed in in order to reset your member account password :\n\n' +
-                  'Activation Code: ' +
+                  "Greetings from Island Furniture... \n\n" +
+                  "Here is your activation code to be keyed in in order to reset your member account password :\n\n" +
+                  "Activation Code: " +
                   member.PASSWORDRESET +
-                  '\n\n' +
-                  'Link to reset your password: http://' +
+                  "\n\n" +
+                  "Link to reset your password: http://" +
                   url +
-                  '/memberResetPassword.html?email=' +
+                  "/memberResetPassword.html?email=" +
                   email,
               };
               emailer.sendMail(mailOptions, function (error, info) {
@@ -459,7 +459,7 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = 'SELECT * FROM memberentity m WHERE m.EMAIL=?';
+          var sql = "SELECT * FROM memberentity m WHERE m.EMAIL=?";
           conn.query(sql, [email], function (err, result) {
             if (err) {
               conn.end();
@@ -486,7 +486,7 @@ var memberDB = {
         } else {
           bcrypt.hash(password, 5, function (err, hash) {
             var sql =
-              'UPDATE memberentity SET PASSWORDHASH=?,PASSWORDRESET=? WHERE EMAIL=?';
+              "UPDATE memberentity SET PASSWORDHASH=?,PASSWORDRESET=? WHERE EMAIL=?";
             var sqlArgs = [hash, generateRandomNumber(40), email];
             conn.query(sql, sqlArgs, function (err, result) {
               if (err) {
@@ -514,7 +514,7 @@ var memberDB = {
           return reject(err);
         } else {
           var sql =
-            'INSERT INTO feedbackentity(EMAIL,MESSAGE,NAME,SUBJECT) values(?,?,?,?)';
+            "INSERT INTO feedbackentity(EMAIL,MESSAGE,NAME,SUBJECT) values(?,?,?,?)";
           conn.query(
             sql,
             [email, message, name, subject],
@@ -525,18 +525,18 @@ var memberDB = {
               } else {
                 if (result.affectedRows > 0) {
                   var mailOptions = {
-                    from: 'islandfurnituresep@gmail.com',
-                    to: 'islandfurnituresep@gmail.com',
-                    subject: 'Island Furniture Member Feedback',
+                    from: "islandfurnituresep@gmail.com",
+                    to: "islandfurnituresep@gmail.com",
+                    subject: "Island Furniture Member Feedback",
                     text:
-                      'Feedback from Island Furniture member' +
-                      '\nName: ' +
+                      "Feedback from Island Furniture member" +
+                      "\nName: " +
                       name +
-                      '\nEmail: ' +
+                      "\nEmail: " +
                       email +
-                      '\nSubject: ' +
+                      "\nSubject: " +
                       subject +
-                      '\nMessage:\n\n' +
+                      "\nMessage:\n\n" +
                       message,
                   };
                   emailer.sendMail(mailOptions, function (error, info) {
@@ -563,13 +563,13 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = 'SELECT * FROM memberentity m WHERE m.ID=?';
+          var sql = "SELECT * FROM memberentity m WHERE m.ID=?";
           conn.query(sql, [id], (err, result) => {
             if (err) {
               conn.end();
               return reject(err);
             } else {
-              if (result == null || result == undefined || result == '') {
+              if (result == null || result == undefined || result == "") {
                 conn.end();
                 return resolve({ success: false });
               }
@@ -605,7 +605,7 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = 'UPDATE memberentity SET STRIPECUSTOMERID=? WHERE EMAIL=?';
+          var sql = "UPDATE memberentity SET STRIPECUSTOMERID=? WHERE EMAIL=?";
           conn.query(sql, [customerId, email], function (err, result) {
             if (err) {
               conn.end();
@@ -637,7 +637,7 @@ var memberDB = {
           return reject(err);
         } else {
           var sql =
-            'UPDATE memberentity SET NAME=?, PHONE=?, ADDRESS=?, ZIPCODE=? WHERE EMAIL=?';
+            "UPDATE memberentity SET NAME=?, PHONE=?, ADDRESS=?, ZIPCODE=? WHERE EMAIL=?";
           conn.query(
             sql,
             [name, contactNum, address, postalCode, email],
@@ -661,13 +661,13 @@ var memberDB = {
 module.exports = memberDB;
 
 var generateRandomNumber = function (digits) {
-  return crypto.randomBytes(Math.ceil(digits / 2)).toString('hex');
+  return crypto.randomBytes(Math.ceil(digits / 2)).toString("hex");
 };
 
 var emailer = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-    user: 'islandfurnituresep@gmail.com',
-    pass: 'islandFurniture123',
+    user: "islandfurnituresep@gmail.com",
+    pass: "islandFurniture123",
   },
 });
