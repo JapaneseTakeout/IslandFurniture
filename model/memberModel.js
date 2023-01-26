@@ -95,42 +95,45 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
-          var sql = "SELECT * FROM memberentity m WHERE m.EMAIL=?";
+          var sql =
+            "SELECT m.*, c.NAME as COUNTRY_NAME FROM `islandfurniture-it07`.memberentity m left join `islandfurniture-it07`.countryentity c ON c.ID = m.COUNTRY_ID where m.EMAIL=?";
           conn.query(sql, [email], function (err, result) {
             if (err) {
               conn.end();
               return reject(err);
             } else {
               var member = new Member();
-              member.id = result[0].ID;
-              member.dob = result[0].DOB;
-              member.accountActivationStatus =
-                result[0].ACCOUNTACTIVATIONSTATUS;
-              member.accountLockStatus = result[0].ACCOUNTLOCKSTATUS;
-              member.activationCode = result[0].ACTIVATIONCODE;
-              member.address = result[0].ADDRESS;
-              member.age = result[0].AGE;
-              member.city = result[0].CITY;
-              member.cumulativeSpending = result[0].CUMULATIVESPENDING;
-              member.email = result[0].EMAIL;
-              member.income = result[0].INCOME;
-              member.isDeleted = result[0].ISDELETED;
-              member.joinDate = result[0].JOINDATE;
-              member.loyaltyCardId = result[0].LOYALTYCARDID;
-              member.loyaltyPoints = result[0].LOYALTYPOINTS;
               member.name = result[0].NAME;
-              member.occupation = result[0].OCCUPATION;
-              member.passwordHash = result[0].PASSWORDHASH;
-              member.passwordReset = result[0].PASSWORDRESET;
+              member.email = result[0].EMAIL;
               member.phone = result[0].PHONE;
-              member.securityAnswer = result[0].SECURITYANSWER;
-              member.securityQuestion = result[0].SECURITYQUESTION;
-              member.sla = result[0].SERVICELEVELAGREEMENT;
-              member.zipcode = result[0].ZIPCODE;
-              member.loyaltyTierId = result[0].LOYALTYTIER_ID;
               member.countryId = result[0].COUNTRY_ID;
-              member.wishlistId = result[0].WISHLIST_ID;
-              member.stripeCustomerId = result[0].STRIPECUSTOMERID;
+              member.address = result[0].ADDRESS;
+              member.securityQuestion = result[0].SECURITYQUESTION;
+              member.securityAnswer = result[0].SECURITYANSWER;
+              member.age = result[0].AGE;
+              member.income = result[0].INCOME;
+              member.sla = result[0].SERVICELEVELAGREEMENT;
+              member.countryName = result[0].COUNTRY_NAME;
+
+              member.id = result[0].ID;
+              // member.dob = result[0].DOB;
+              // member.accountActivationStatus =
+              //   result[0].ACCOUNTACTIVATIONSTATUS;
+              // member.accountLockStatus = result[0].ACCOUNTLOCKSTATUS;
+              // member.activationCode = result[0].ACTIVATIONCODE;
+              // member.city = result[0].CITY;
+              // member.cumulativeSpending = result[0].CUMULATIVESPENDING;
+              // member.isDeleted = result[0].ISDELETED;
+              // member.joinDate = result[0].JOINDATE;
+              // member.loyaltyCardId = result[0].LOYALTYCARDID;
+              // member.loyaltyPoints = result[0].LOYALTYPOINTS;
+              // member.occupation = result[0].OCCUPATION;
+              // member.passwordHash = result[0].PASSWORDHASH;
+              // member.passwordReset = result[0].PASSWORDRESET;
+              // member.zipcode = result[0].ZIPCODE;
+              // member.loyaltyTierId = result[0].LOYALTYTIER_ID;
+              // member.wishlistId = result[0].WISHLIST_ID;
+              // member.stripeCustomerId = result[0].STRIPECUSTOMERID;
               conn.end();
               return resolve(member);
             }
@@ -662,9 +665,7 @@ var generateRandomNumber = function (digits) {
 };
 
 var emailer = nodemailer.createTransport({
-  service: "Gmail",
-  secure: true,
-  port: 465,
+  service: "gmail",
   auth: {
     user: "islandfurnituresep@gmail.com",
     pass: "islandFurniture123",
