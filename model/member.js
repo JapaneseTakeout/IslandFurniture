@@ -1,6 +1,6 @@
 class Member {
   constructor() {
-    // this.id = null;
+    this.id = null;
     // this.dob = null;
     // this.accountActivationStatus = null;
     // this.accountLockStatus = null;

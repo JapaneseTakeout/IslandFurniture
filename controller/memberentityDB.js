@@ -165,6 +165,8 @@ app.post('/api/sendFeedback', jsonParser, function (req, res) {
 app.post('/api/verifyPassword', jsonParser, function (req, res) {
   var id = req.body.id;
   var password = req.body.password;
+  console.log(id);
+  console.log(password);
   member
     .verifyPassword(id, password)
     .then((result) => {

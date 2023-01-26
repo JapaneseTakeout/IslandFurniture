@@ -115,7 +115,7 @@ var memberDB = {
               member.sla = result[0].SERVICELEVELAGREEMENT;
               member.countryName = result[0].COUNTRY_NAME;
 
-              // member.id = result[0].ID;
+              member.id = result[0].ID;
               // member.dob = result[0].DOB;
               // member.accountActivationStatus =
               //   result[0].ACCOUNTACTIVATIONSTATUS;
