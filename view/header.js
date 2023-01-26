@@ -1,4 +1,5 @@
-document.write('\
+document.write(
+  '\
 <head>\
     <meta charset="utf-8">\
     <title>Island Furniture</title>\
@@ -40,4 +41,5 @@ document.write('\
     <script src="/vendor/mediaelement/mediaelement-and-player.js"></script>\
     \
     <link rel="stylesheet" href="/@fortawesome/fontawesome-free/css/all.css">\
-</head>');
+</head>'
+);
