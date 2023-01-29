@@ -333,6 +333,7 @@ var memberDB = {
           conn.end();
           return reject(err);
         } else {
+            console.log(details.country);
           var email = details.email;
           var name = details.name;
           var phone = details.phone;
@@ -347,7 +348,7 @@ var memberDB = {
           if (password == null || password == "") {
             var sql =
               "UPDATE memberentity SET NAME=?, PHONE=?, CITY=?, ADDRESS=?, SECURITYQUESTION=?," +
-              "SECURITYANSWER=?, AGE=?, INCOME=?, SERVICELEVELAGREEMENT=? WHERE EMAIL=?";
+              "SECURITYANSWER=?, AGE=?, INCOME=?, Country_ID=(SELECT ID FROM countryentity WHERE NAME = ?), SERVICELEVELAGREEMENT=? WHERE EMAIL=?";
             var sqlArgs = [
               name,
               phone,
@@ -357,6 +358,7 @@ var memberDB = {
               securityAnswer,
               age,
               income,
+              country,
               sla,
               email,
             ];
